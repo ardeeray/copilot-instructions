@@ -8,6 +8,9 @@ Global stack-level Copilot instruction files for VS Code. These contain reusable
 |---|---|
 | `nextjs-firebase.instructions.md` | Any Next.js 15 + Firebase + MUI v7 project |
 | `flutter-firebase.instructions.md` | Any Flutter + Firebase + Riverpod project |
+| `decision-capture.instructions.md` | Any project — decision interview process and entry field definitions |
+
+**Adding a new instructions file?** Drop a `*.instructions.md` file in this directory and re-run `setup.mjs`. The script auto-discovers all `*.instructions.md` files — no manual update to the script or this table is needed.
 
 ## Setup on a new machine
 
@@ -29,8 +32,9 @@ If you prefer to wire manually, add this to your VS Code `settings.json`:
 
 ```json
 "github.copilot.chat.codeGeneration.instructions": [
-  { "file": "/Users/<you>/copilot-instructions/nextjs-firebase.instructions.md" },
-  { "file": "/Users/<you>/copilot-instructions/flutter-firebase.instructions.md" }
+  { "file": "/Users/<you>/copilot-instructions/decision-capture.instructions.md" },
+  { "file": "/Users/<you>/copilot-instructions/flutter-firebase.instructions.md" },
+  { "file": "/Users/<you>/copilot-instructions/nextjs-firebase.instructions.md" }
 ]
 ```
 

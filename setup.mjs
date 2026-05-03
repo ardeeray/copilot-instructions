@@ -7,7 +7,7 @@
  * Usage: node setup.mjs
  */
 
-import { readFileSync, writeFileSync, existsSync } from 'fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'fs';
 import { join } from 'path';
 import os from 'os';
 
@@ -36,10 +36,11 @@ if (!existsSync(settingsPath)) {
 
 const instructionsDir = join(home, 'copilot-instructions');
 
-const newEntries = [
-  { file: join(instructionsDir, 'nextjs-firebase.instructions.md') },
-  { file: join(instructionsDir, 'flutter-firebase.instructions.md') },
-];
+// Auto-discover all *.instructions.md files — no manual update needed when adding new files
+const newEntries = readdirSync(instructionsDir)
+  .filter((f) => f.endsWith('.instructions.md'))
+  .sort()
+  .map((f) => ({ file: join(instructionsDir, f) }));
 
 // Parse settings.json (handles trailing commas and comments via a forgiving parse)
 let raw = readFileSync(settingsPath, 'utf8');
