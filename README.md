@@ -7,19 +7,42 @@ Global Copilot instruction files for VS Code. Loaded as always-on context in eve
 ## What's in `files/`
 
 ### `documentation.instructions.md`
-Generic rules for **writing and maintaining documentation** in any project. Covers: the Key concepts section requirement (format + when to apply), doc-worthiness criteria (what triggers an update, what doesn't), the Manual fallback section requirement, and script standards (dry-run mode, env-var placeholders, IAM role header, rollback steps). Always-on — no `applyTo` filter. Project files override the doc store URL, folder structure, and "what to ask" prompt.
+Generic rules for writing and maintaining documentation in any project.
+- Key concepts section requirement — format block + when to apply
+- Doc-worthiness criteria — what triggers an update, what doesn't
+- Manual fallback section requirement
+- Script standards — dry-run mode, env-var placeholders, IAM role header, rollback steps, output snippet
+- Always-on (no `applyTo` filter); project files override the store URL and "what to ask" prompt
 
 ### `decision-capture.instructions.md`
-Universal workflow for **recording architectural decisions**. Detects decision signals mid-task (library choices, deletions, "I don't want to use X"), runs a structured interview (alternatives, rejection reasons, risks, revisit conditions), then proposes a `DEC-NNN` decision entry and/or changelog entry at the end of the task. Saves to `files/decisions.md` and `files/changelog.md` by default; project-specific files override the paths. Includes per-language linkback comment formats and lookup instructions.
+Universal workflow for recording architectural decisions.
+- Detects decision signals mid-task (library choices, deletions, "I don't want to use X")
+- Runs a structured interview — alternatives, rejection reasons, risks, revisit conditions
+- Proposes a `DEC-NNN` decision entry and/or changelog entry at end of task
+- Saves to `files/decisions.md` + `files/changelog.md` by default; project files override the paths
+- Includes per-language linkback comment formats and lookup instructions
 
 ### `error-capture.instructions.md`
-Universal workflow for **documenting errors and their fixes**. Triggered only when explicitly asked. Saves to `files/errors.md` by default; project-specific files override the path. Entry format: H3 title / Quick fix / Full error (exact output) / Fix steps. Includes a dedup rule (checks for existing entries before adding) and lookup instructions.
+Universal workflow for documenting errors and their fixes.
+- Triggered only when explicitly asked — never runs automatically
+- Saves to `files/errors.md` by default; project files override the path
+- Entry format: H3 title / Quick fix / Full error (exact output) / Fix steps
+- Dedup rule — checks for existing entries before adding
 
 ### `nextjs-firebase.instructions.md`
-Coding conventions for any **Next.js 15 + Firebase + MUI v7** project. Covers: TypeScript strictness (no `any`, typed API responses), Next.js 15 App Router patterns (`params` as a Promise, Server vs. client boundary, route handlers), Firebase Auth session cookie pattern, Firestore Admin SDK rules, MUI v7 theming, and ESLint/JSX entity guidelines. Project-specific rules (schema, routes, theme tokens) stay in the repo's own `.github/instructions/`.
+Coding conventions for any Next.js 15 + Firebase + MUI v7 project.
+- TypeScript strictness — no `any`, typed API responses, `unknown` in catch blocks
+- Next.js 15 App Router patterns — `params` as a Promise, Server vs. client boundary, route handlers
+- Firebase Auth session cookie pattern; Firestore Admin SDK server helper pattern
+- MUI v7 layout — CSS Grid via `Box`, `Stack`, no deprecated `<Grid item>`; no mixing MUI + Tailwind on the same element
+- ESLint/JSX entity guidelines
 
 ### `flutter-firebase.instructions.md`
-Coding conventions for any **Flutter + Firebase + Riverpod** project. Covers: Riverpod 3.x patterns and breaking changes, code generation (`@riverpod`, build_runner), widget choice (`ConsumerWidget` vs `HookConsumerWidget`), logging conventions, async/error handling, `context.mounted` guard, immutable state classes, image error handling, and the Dumb Widget Pattern. Project-specific rules (Firestore schema, screen structure) stay in the repo's own `.github/instructions/`.
+Coding conventions for any Flutter + Firebase + Riverpod project.
+- Riverpod 3.x patterns and breaking changes; code generation (`@riverpod`, build_runner)
+- Widget choice — `ConsumerWidget` vs `HookConsumerWidget`
+- Logging conventions, async/error handling, `context.mounted` guard
+- Immutable state classes, image error handling, Dumb Widget Pattern
 
 ---
 
