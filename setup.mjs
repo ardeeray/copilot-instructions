@@ -34,13 +34,14 @@ if (!existsSync(settingsPath)) {
   process.exit(1);
 }
 
-const instructionsDir = join(home, 'copilot-instructions');
+const repoDir = join(home, 'copilot-instructions');
+const filesDir = join(repoDir, 'files');
 
 // Auto-discover all *.instructions.md files — no manual update needed when adding new files
-const newEntries = readdirSync(instructionsDir)
+const newEntries = readdirSync(filesDir)
   .filter((f) => f.endsWith('.instructions.md'))
   .sort()
-  .map((f) => ({ file: join(instructionsDir, f) }));
+  .map((f) => ({ file: join(filesDir, f) }));
 
 // Parse settings.json — VS Code uses JSONC (comments + trailing commas allowed)
 let raw = readFileSync(settingsPath, 'utf8');
@@ -73,7 +74,16 @@ function resolveFile(f) {
 }
 
 // Remove legacy entries that used ${userHome} — replace with absolute paths
-const cleaned = existing.filter((e) => !e.file?.includes('${userHome}'));
+// Also remove stale entries pointing to files that no longer exist on disk
+const cleaned = existing.filter((e) => {
+  if (e.file?.includes('${userHome}')) return false;
+  const resolved = resolveFile(e.file);
+  if (resolved && !existsSync(resolved)) {
+    console.log(`- Removed stale entry (file not found): ${e.file}`);
+    return false;
+  }
+  return true;
+});
 const removedCount = existing.length - cleaned.length;
 if (removedCount > 0) {
   console.log(`- Removed ${removedCount} legacy \${userHome} entries (replacing with absolute paths)`);

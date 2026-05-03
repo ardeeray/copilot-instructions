@@ -8,7 +8,7 @@ Universal process for documenting errors and their fixes. Works in any project w
 
 | Setting | Default value |
 |---|---|
-| **Errors file** | `~/copilot-instructions/errors.md` |
+| **Errors file** | `~/copilot-instructions/files/errors.md` |
 | **Override rule** | If a project-specific instruction file defines a different errors file path, that takes precedence |
 
 ---
@@ -66,5 +66,5 @@ Organizing entries into `## Platform` sections (e.g. `## Flutter / Android`, `##
 When the user asks to look up a past error:
 
 1. Check if a project-specific instruction file defines an errors file path. If so, read that file.
-2. Otherwise read `~/copilot-instructions/errors.md`.
+2. Otherwise read `~/copilot-instructions/files/errors.md`.
 3. Scan H3 headings for a match and return the full entry.
