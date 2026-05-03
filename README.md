@@ -2,6 +2,10 @@
 
 Global Copilot instruction files for VS Code. Loaded as always-on context in every conversation, across every workspace. Stack-level rules live here; project-specific rules stay in each repo's `.github/instructions/`.
 
+**Two-layer architecture:**
+- `~/copilot-instructions/files/` — global stack rules (this repo, machine-local)
+- `.github/instructions/` in each repo — project-specific overrides (version-controlled per repo)
+
 ---
 
 ## What's in `files/`
@@ -46,38 +50,6 @@ Coding conventions for any Flutter + Firebase + Riverpod project.
 
 ---
 
-## Changelog
-
-### 2026-05-03 (continued)
-- Added `documentation.instructions.md` — extracts generic doc conventions (Key concepts, doc-worthy triggers, script standards) from ardeeportal's `docs.instructions.md`; project file slimmed to overrides only + `applyTo: '**'` so checks fire on any file
-- Added Tailwind/MUI mixing rule to `nextjs-firebase.instructions.md` (global); removed redundant per-form note
-
-### 2026-05-03
-- Reorganized repo: moved all content files into `files/` subfolder; `README.md` and `setup.mjs` remain at root
-- `setup.mjs` now prunes stale settings.json entries (files that no longer exist on disk) on every run
-- Added `error-capture.instructions.md` + `files/errors.md` global errors log
-- `decision-capture.instructions.md` made fully standalone: added Defaults table, concrete entry format, per-language linkback rules, and lookup instructions; created `files/decisions.md` + `files/changelog.md` global log files
-- `setup.mjs` made dynamic: auto-discovers all `*.instructions.md` in `files/` — no manual update needed when adding new files
-- `setup.mjs` updated to handle VS Code's JSONC format (comments + trailing commas) and clean up legacy `${userHome}` entries
-
-### 2026-05-01 (initial commit)
-- Created repo with `nextjs-firebase.instructions.md` and `flutter-firebase.instructions.md`
-- Added `setup.mjs` to auto-wire files into VS Code `settings.json`
-
----
-
-## Files
-
-| File | Applies to |
-|---|---|
-| `files/nextjs-firebase.instructions.md` | Any Next.js 15 + Firebase + MUI v7 project |
-| `files/flutter-firebase.instructions.md` | Any Flutter + Firebase + Riverpod project |
-| `files/documentation.instructions.md` | Any project — doc conventions, doc-worthy triggers, script standards |
-| `files/decision-capture.instructions.md` | Any project — decision interview process and entry fields |
-| `files/error-capture.instructions.md` | Any project — error documentation workflow |
-
-**Adding a new instructions file?** Drop a `*.instructions.md` file in `files/` and re-run `setup.mjs`. The script auto-discovers all `*.instructions.md` files — no manual update to the script or this table is needed.
-
 ## Setup on a new machine
 
 1. Clone this repo to your home directory:
@@ -91,6 +63,8 @@ Coding conventions for any Flutter + Firebase + Riverpod project.
    ```
 
 3. Restart VS Code (or reload the window) for the instructions to take effect.
+
+**Adding a new instructions file?** Drop a `*.instructions.md` file in `files/` and re-run `setup.mjs`. The script auto-discovers all files — no manual edits needed.
 
 ### Manual alternative
 
@@ -108,10 +82,19 @@ If you prefer to wire manually, add this to your VS Code `settings.json`:
 
 Replace `/Users/<you>` with your actual home directory (`echo $HOME`).
 
-## How it works
+---
 
-VS Code Copilot loads these files as always-on context for all code generation in any workspace. They contain stack-level rules (TypeScript patterns, Riverpod conventions, Firebase Auth patterns, etc.) that complement the per-repo `.github/instructions/` files checked into each project.
+## Changelog
 
-**Two-layer architecture:**
-- `~/copilot-instructions/` — global stack rules (this repo, machine-local)
-- `.github/instructions/` in each repo — project-specific rules (version-controlled per repo)
+### 2026-05-03
+- Added `documentation.instructions.md` — extracts generic doc conventions (Key concepts, doc-worthy triggers, script standards) from ardeeportal's `docs.instructions.md`; project file slimmed to overrides only + `applyTo: '**'` so checks fire on any file
+- Added Tailwind/MUI mixing rule to `nextjs-firebase.instructions.md`; removed redundant per-form duplicate
+- Reorganized repo: moved all content files into `files/` subfolder; `README.md` and `setup.mjs` remain at root
+- `setup.mjs` now prunes stale settings.json entries and handles VS Code's JSONC format (comments + trailing commas)
+- Added `error-capture.instructions.md` + `files/errors.md` global errors log
+- `decision-capture.instructions.md` made fully standalone: Defaults table, concrete entry format, per-language linkback rules, lookup instructions; created `files/decisions.md` + `files/changelog.md`
+- `setup.mjs` made dynamic: auto-discovers all `*.instructions.md` in `files/`
+
+### 2026-05-01 (initial commit)
+- Created repo with `nextjs-firebase.instructions.md` and `flutter-firebase.instructions.md`
+- Added `setup.mjs` to auto-wire files into VS Code `settings.json`
