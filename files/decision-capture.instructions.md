@@ -8,8 +8,8 @@ Universal process for recording architectural decisions and changelogs. Works in
 
 | Setting | Default value |
 |---|---|
-| **Decisions file** | `~/copilot-instructions/files/decisions.md` |
-| **Changelog file** | `~/copilot-instructions/files/changelog.md` |
+| **Decisions file** | `~/copilot-instructions/logs/decisions.md` |
+| **Changelog file** | `~/copilot-instructions/logs/changelog.md` |
 | **Entry numbering** | `DEC-NNN` sequential — read existing `## DEC-NNN` headings in the file to find the next available number |
 | **Override rule** | If a project-specific instruction file defines different paths or extra fields, those take precedence over these defaults |
 

@@ -4,6 +4,7 @@ Global Copilot instruction files for VS Code. Loaded as always-on context in eve
 
 **Two-layer architecture:**
 - `~/copilot-instructions/files/` — global stack rules (this repo, machine-local)
+- `~/copilot-instructions/logs/` — running logs: decisions, changelog, errors
 - `.github/instructions/` in each repo — project-specific overrides (version-controlled per repo)
 
 ---
@@ -139,13 +140,16 @@ Replace `/Users/<you>` with your actual home directory (`echo $HOME`).
 
 ## Changelog
 
+### 2026-05-03 (continued)
+- Moved `decisions.md`, `changelog.md`, `errors.md` from `files/` into a dedicated `logs/` folder; updated all path references
+
 ### 2026-05-03
 - Added `documentation.instructions.md` — extracts generic doc conventions (Key concepts, doc-worthy triggers, script standards) from ardeeportal's `docs.instructions.md`; project file slimmed to overrides only + `applyTo: '**'` so checks fire on any file
 - Added Tailwind/MUI mixing rule to `nextjs-firebase.instructions.md`; removed redundant per-form duplicate
 - Reorganized repo: moved all content files into `files/` subfolder; `README.md` and `setup.mjs` remain at root
 - `setup.mjs` now prunes stale settings.json entries and handles VS Code's JSONC format (comments + trailing commas)
-- Added `error-capture.instructions.md` + `files/errors.md` global errors log
-- `decision-capture.instructions.md` made fully standalone: Defaults table, concrete entry format, per-language linkback rules, lookup instructions; created `files/decisions.md` + `files/changelog.md`
+- Added `error-capture.instructions.md` + `logs/errors.md` global errors log
+- `decision-capture.instructions.md` made fully standalone: Defaults table, concrete entry format, per-language linkback rules, lookup instructions; created `logs/decisions.md` + `logs/changelog.md`
 - `setup.mjs` made dynamic: auto-discovers all `*.instructions.md` in `files/`
 
 ### 2026-05-01 (initial commit)

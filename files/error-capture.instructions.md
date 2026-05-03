@@ -8,7 +8,7 @@ Universal process for documenting errors and their fixes. Works in any project w
 
 | Setting | Default value |
 |---|---|
-| **Errors file** | `~/copilot-instructions/files/errors.md` |
+| **Errors file** | `~/copilot-instructions/logs/errors.md` |
 | **Override rule** | If a project-specific instruction file defines a different errors file path, that takes precedence |
 
 ---
