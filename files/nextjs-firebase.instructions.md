@@ -61,6 +61,7 @@ return <IconComponent fontSize="small" />
 - Prefer `<Link>` over polymorphic `Typography` when you need `href`.
 - For images inside MUI cards, avoid `CardMedia` typing pitfalls — use `Box component="img"` or a Box wrapper + `img`.
 - Always reference colors via MUI theme tokens in `sx` — never hard-code hex values in new code.
+- If the project uses both MUI and Tailwind, never apply both on the same element — pick one per element.
 
 ---
 
@@ -70,7 +71,7 @@ return <IconComponent fontSize="small" />
 - Define a Zod schema; use `zodResolver` with RHF.
 - For numeric fields, use a `coerceNum` helper (or `z.coerce.number()`) to avoid empty-string/NaN issues.
 - Group fields into section cards: `Stack`, `Typography`, `TextField`, `Button`, `Alert`, `CircularProgress`.
-- Keep styling in MUI `sx`; do not mix Tailwind in form code.
+- Keep styling in MUI `sx`.
 - Presentational client component that accepts typed props; parent (Server Component) fetches data and injects via props.
 
 ---
