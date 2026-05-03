@@ -42,29 +42,51 @@ const newEntries = readdirSync(instructionsDir)
   .sort()
   .map((f) => ({ file: join(instructionsDir, f) }));
 
-// Parse settings.json (handles trailing commas and comments via a forgiving parse)
+// Parse settings.json — VS Code uses JSONC (comments + trailing commas allowed)
 let raw = readFileSync(settingsPath, 'utf8');
+
+function stripJsonc(src) {
+  // Remove single-line // comments (not inside strings)
+  // Remove multi-line /* */ comments
+  // Remove trailing commas before } or ]
+  return src
+    .replace(/\/\*[\s\S]*?\*\//g, '')
+    .replace(/\/\/[^\n"]*/g, '')
+    .replace(/,\s*([}\]])/g, '$1');
+}
 
 let settings;
 try {
-  settings = JSON.parse(raw);
-} catch {
-  console.error('Could not parse settings.json as strict JSON.');
-  console.error('If you have comments or trailing commas, remove them temporarily, then re-run.');
+  settings = JSON.parse(stripJsonc(raw));
+} catch (err) {
+  console.error('Could not parse settings.json:', err.message);
+  console.error('Path:', settingsPath);
   process.exit(1);
 }
 
 const key = 'github.copilot.chat.codeGeneration.instructions';
 const existing = settings[key] ?? [];
 
-// Build a set of files already registered (normalize slashes)
-const existingFiles = new Set(existing.map((e) => e.file?.replace(/\\/g, '/')));
+// Resolve ${userHome} placeholders so we can deduplicate across both formats
+function resolveFile(f) {
+  return f?.replace(/\$\{userHome\}/g, home).replace(/\\/g, '/');
+}
+
+// Remove legacy entries that used ${userHome} — replace with absolute paths
+const cleaned = existing.filter((e) => !e.file?.includes('${userHome}'));
+const removedCount = existing.length - cleaned.length;
+if (removedCount > 0) {
+  console.log(`- Removed ${removedCount} legacy \${userHome} entries (replacing with absolute paths)`);
+}
+
+// Build a set of resolved files already registered
+const resolvedFiles = new Set(cleaned.map((e) => resolveFile(e.file)));
 
 let added = 0;
 for (const entry of newEntries) {
-  const normalized = entry.file.replace(/\\/g, '/');
-  if (!existingFiles.has(normalized)) {
-    existing.push({ file: entry.file });
+  const resolved = resolveFile(entry.file);
+  if (!resolvedFiles.has(resolved)) {
+    cleaned.push({ file: entry.file });
     added++;
     console.log(`+ Added: ${entry.file}`);
   } else {
@@ -72,8 +94,8 @@ for (const entry of newEntries) {
   }
 }
 
-if (added > 0) {
-  settings[key] = existing;
+if (added > 0 || removedCount > 0) {
+  settings[key] = cleaned;
   writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', 'utf8');
   console.log(`\nUpdated: ${settingsPath}`);
 } else {
