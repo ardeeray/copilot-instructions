@@ -66,6 +66,59 @@ Coding conventions for any Flutter + Firebase + Riverpod project.
 
 **Adding a new instructions file?** Drop a `*.instructions.md` file in `files/` and re-run `setup.mjs`. The script auto-discovers all files — no manual edits needed.
 
+---
+
+## Project override files
+
+The global files cover stack-level rules. For project-specific details (schema, routes, cookie names, theme tokens, log file paths), add override files inside the project repo — they are version-controlled there and shared with collaborators.
+
+**1. Create the file** in the project repo at `.github/instructions/<name>.instructions.md`.
+
+**2. Set `applyTo`** in the YAML frontmatter to control when Copilot loads it:
+
+```markdown
+---
+applyTo: '**'
+---
+```
+
+Common patterns:
+
+| `applyTo` value | When it's loaded |
+|---|---|
+| `'**'` | Every file in the project (always-on) |
+| `'**/*.tsx'` | Only when editing `.tsx` files |
+| `'{src/lib/firebase/**,src/middleware.ts}'` | Only when editing those paths |
+
+**3. Write only the project-specific parts.** Add a pointer to the global file at the top so the relationship is clear, then add only what overrides or extends it:
+
+```markdown
+---
+applyTo: '**'
+---
+
+# Documentation — my-project
+
+> Generic doc conventions are in `~/copilot-instructions/files/documentation.instructions.md`.
+> This file adds only project-specific overrides.
+
+## What to ask
+
+At the end of any doc-worthy task, ask:
+> Should I also update the docs at `/admin/docs`?
+
+## Doc store
+
+| Change type | Store |
+|---|---|
+| Architecture, schema | Repo `docs/<category>/<slug>.md` |
+| Runbooks, one-off ops notes | Firestore `adminDocs` |
+```
+
+**4. No wiring needed.** VS Code picks up `.github/instructions/*.instructions.md` automatically in any workspace that contains the repo — no `settings.json` changes required.
+
+---
+
 ### Manual alternative
 
 If you prefer to wire manually, add this to your VS Code `settings.json`:
