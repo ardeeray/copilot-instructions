@@ -1,6 +1,17 @@
 # Decision capture
 
-Universal process for recording architectural decisions and changelogs. Works in any project. The project-specific instruction file supplies the actual log file paths, extra entry fields, and linkback comment syntax.
+Universal process for recording architectural decisions and changelogs. Works in any project with zero setup — all defaults are defined here. Project-specific instruction files may override paths, add extra fields, and change the linkback path.
+
+---
+
+## Defaults
+
+| Setting | Default value |
+|---|---|
+| **Decisions file** | `~/copilot-instructions/decisions.md` |
+| **Changelog file** | `~/copilot-instructions/changelog.md` |
+| **Entry numbering** | `DEC-NNN` sequential — read existing `## DEC-NNN` headings in the file to find the next available number |
+| **Override rule** | If a project-specific instruction file defines different paths or extra fields, those take precedence over these defaults |
 
 ---
 
@@ -29,9 +40,9 @@ For each question, present as many as you can context-aware suggested answers in
 
 After completing any task where a decision was made:
 
-1. Draft a decision entry (see fields below) and ask: *Should I add this to the decisions log?*
+1. Draft a decision entry using the format below and ask: *Should I add this to the decisions log?*
 2. If a feature shipped, was removed, or a notable technical change was made, ask separately: *Should I add a changelog entry?*
-3. For source files touched by the decision, propose a linkback comment at the relevant call site. (The project-specific file supplies the exact comment syntax.)
+3. For source files touched by the decision, propose a linkback comment using the per-language format in the **Linkback comments** section below.
 
 ---
 
@@ -51,23 +62,55 @@ After completing any task where a decision was made:
 
 ---
 
-## Decision entry fields (all required)
+## Entry format
 
-| Field | Description |
+### Decision entry
+
+Write the entry as a top-level heading in the decisions file (newest at top):
+
+```markdown
+## DEC-NNN [YYYY-MM-DD] Short title
+**Category**: Architecture | Feature scope | Library | Security | Cross-system contract
+**Context**: Why this decision came up
+**Decision**: What was decided
+**Alternatives considered**: Option A (rejected: reason); Option B (rejected: reason)
+**Rationale**: Why this choice over the alternatives
+**Risks accepted**: Known downsides being lived with
+**Revisit when**: Condition that would change this decision
+**Affected**: path/to/file.ts, docs/category/slug.md
+```
+
+### Changelog entry
+
+Write the entry as a top-level heading in the changelog file (newest at top):
+
+```markdown
+## [YYYY-MM-DD] Short summary
+**Type**: Feature | Technical | Removal | Deferral
+**Summary**: One-liner description of the change
+**Related decision**: DEC-NNN (omit if none)
+```
+
+---
+
+## Linkback comments
+
+After writing a decision entry, add a linkback comment near the relevant code. Use the format for the file's language. If a project-specific override is active, replace the path portion with the project-specific decisions file path.
+
+| Language | Comment format |
 |---|---|
-| **Category** | Architecture \| Feature scope \| Library \| Security \| Cross-system contract |
-| **Context** | Why the decision came up |
-| **Decision** | What was decided |
-| **Alternatives considered** | Each rejected option + reason for rejection |
-| **Rationale** | Why this choice over the alternatives |
-| **Risks accepted** | Known downsides being lived with |
-| **Revisit when** | Condition that would change this decision |
-| **Affected** | Source files and docs impacted |
+| TypeScript / JavaScript / Dart / Java / Swift / C# | `// Decision: DEC-NNN ~/copilot-instructions/decisions.md#dec-nnn` |
+| Python / Shell / YAML / TOML | `# Decision: DEC-NNN ~/copilot-instructions/decisions.md#dec-nnn` |
+| HTML / XML / Markdown | `<!-- Decision: DEC-NNN ~/copilot-instructions/decisions.md#dec-nnn -->` |
 
-## Changelog entry fields
+Anchor format: heading `## DEC-001 [...]` → anchor `#dec-001` (lowercase, spaces to hyphens, strip brackets and other punctuation).
 
-| Field | Description |
-|---|---|
-| **Type** | Feature \| Technical \| Removal \| Deferral |
-| **Summary** | One-liner description |
-| **Related decision** | Decision reference (optional) |
+---
+
+## Looking up a decision
+
+When a user references a decision number (e.g. "look up DEC-042" or "what was the decision on X?"):
+
+1. Check if a project-specific instruction file defines a decisions file path. If so, read that file.
+2. Otherwise read `~/copilot-instructions/decisions.md`.
+3. Find the `## DEC-NNN` heading and return the full entry.
