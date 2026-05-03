@@ -51,6 +51,20 @@ Coding conventions for any Flutter + Firebase + Riverpod project.
 
 ---
 
+## What's in `logs/`
+
+Machine-local running logs written by the always-on instruction files. Not version-controlled — they accumulate across all workspaces on this machine and are meant to be read or searched mid-task.
+
+| File | Written by | Contents |
+|---|---|---|
+| `decisions.md` | `decision-capture.instructions.md` | `DEC-NNN` architectural decision entries |
+| `changelog.md` | `decision-capture.instructions.md` | One-line changelog entries linked to decisions |
+| `errors.md` | `error-capture.instructions.md` | Error + fix pairs, deduped by title |
+
+Project instruction files can override the default paths (e.g. to point at a repo-local `docs/notes/decisions.md`).
+
+---
+
 ## Setup on a new machine
 
 1. Clone this repo to your home directory:
