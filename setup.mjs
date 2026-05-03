@@ -35,7 +35,7 @@ if (!existsSync(settingsPath)) {
 }
 
 const repoDir = join(home, 'copilot-instructions');
-const filesDir = join(repoDir, 'files');
+const filesDir = join(repoDir, 'instructions');
 
 // Auto-discover all *.instructions.md files — no manual update needed when adding new files
 const newEntries = readdirSync(filesDir)

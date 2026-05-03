@@ -3,13 +3,13 @@
 Global Copilot instruction files for VS Code. Loaded as always-on context in every conversation, across every workspace. Stack-level rules live here; project-specific rules stay in each repo's `.github/instructions/`.
 
 **Two-layer architecture:**
-- `~/copilot-instructions/files/` — global stack rules (this repo, machine-local)
+- `~/copilot-instructions/instructions/` — global stack rules (this repo, machine-local)
 - `~/copilot-instructions/logs/` — running logs: decisions, changelog, errors
 - `.github/instructions/` in each repo — project-specific overrides (version-controlled per repo)
 
 ---
 
-## What's in `files/`
+## What's in `instructions/`
 
 ### `documentation.instructions.md`
 Generic rules for writing and maintaining documentation in any project.
@@ -24,13 +24,13 @@ Universal workflow for recording architectural decisions.
 - Detects decision signals mid-task (library choices, deletions, "I don't want to use X")
 - Runs a structured interview — alternatives, rejection reasons, risks, revisit conditions
 - Proposes a `DEC-NNN` decision entry and/or changelog entry at end of task
-- Saves to `files/decisions.md` + `files/changelog.md` by default; project files override the paths
+- Saves to `logs/decisions.md` + `logs/changelog.md` by default; project files override the paths
 - Includes per-language linkback comment formats and lookup instructions
 
 ### `error-capture.instructions.md`
 Universal workflow for documenting errors and their fixes.
 - Triggered only when explicitly asked — never runs automatically
-- Saves to `files/errors.md` by default; project files override the path
+- Saves to `logs/errors.md` by default; project files override the path
 - Entry format: H3 title / Quick fix / Full error (exact output) / Fix steps
 - Dedup rule — checks for existing entries before adding
 
@@ -65,7 +65,7 @@ Coding conventions for any Flutter + Firebase + Riverpod project.
 
 3. Restart VS Code (or reload the window) for the instructions to take effect.
 
-**Adding a new instructions file?** Drop a `*.instructions.md` file in `files/` and re-run `setup.mjs`. The script auto-discovers all files — no manual edits needed.
+**Adding a new instructions file?** Drop a `*.instructions.md` file in `instructions/` and re-run `setup.mjs`. The script auto-discovers all files — no manual edits needed.
 
 ---
 
@@ -100,7 +100,7 @@ applyTo: '**'
 
 # Documentation — my-project
 
-> Generic doc conventions are in `~/copilot-instructions/files/documentation.instructions.md`.
+> Generic doc conventions are in `~/copilot-instructions/instructions/documentation.instructions.md`.
 > This file adds only project-specific overrides.
 
 ## What to ask
@@ -126,11 +126,11 @@ If you prefer to wire manually, add this to your VS Code `settings.json`:
 
 ```json
 "github.copilot.chat.codeGeneration.instructions": [
-  { "file": "/Users/<you>/copilot-instructions/files/decision-capture.instructions.md" },
-  { "file": "/Users/<you>/copilot-instructions/files/documentation.instructions.md" },
-  { "file": "/Users/<you>/copilot-instructions/files/error-capture.instructions.md" },
-  { "file": "/Users/<you>/copilot-instructions/files/flutter-firebase.instructions.md" },
-  { "file": "/Users/<you>/copilot-instructions/files/nextjs-firebase.instructions.md" }
+  { "file": "/Users/<you>/copilot-instructions/instructions/decision-capture.instructions.md" },
+  { "file": "/Users/<you>/copilot-instructions/instructions/documentation.instructions.md" },
+  { "file": "/Users/<you>/copilot-instructions/instructions/error-capture.instructions.md" },
+  { "file": "/Users/<you>/copilot-instructions/instructions/flutter-firebase.instructions.md" },
+  { "file": "/Users/<you>/copilot-instructions/instructions/nextjs-firebase.instructions.md" }
 ]
 ```
 
@@ -141,16 +141,16 @@ Replace `/Users/<you>` with your actual home directory (`echo $HOME`).
 ## Changelog
 
 ### 2026-05-03 (continued)
-- Moved `decisions.md`, `changelog.md`, `errors.md` from `files/` into a dedicated `logs/` folder; updated all path references
+- Moved `decisions.md`, `changelog.md`, `errors.md` from `instructions/` into a dedicated `logs/` folder; updated all path references
 
 ### 2026-05-03
 - Added `documentation.instructions.md` — extracts generic doc conventions (Key concepts, doc-worthy triggers, script standards) from ardeeportal's `docs.instructions.md`; project file slimmed to overrides only + `applyTo: '**'` so checks fire on any file
 - Added Tailwind/MUI mixing rule to `nextjs-firebase.instructions.md`; removed redundant per-form duplicate
-- Reorganized repo: moved all content files into `files/` subfolder; `README.md` and `setup.mjs` remain at root
+- Reorganized repo: moved all content files into `instructions/` subfolder; `README.md` and `setup.mjs` remain at root
 - `setup.mjs` now prunes stale settings.json entries and handles VS Code's JSONC format (comments + trailing commas)
 - Added `error-capture.instructions.md` + `logs/errors.md` global errors log
 - `decision-capture.instructions.md` made fully standalone: Defaults table, concrete entry format, per-language linkback rules, lookup instructions; created `logs/decisions.md` + `logs/changelog.md`
-- `setup.mjs` made dynamic: auto-discovers all `*.instructions.md` in `files/`
+- `setup.mjs` made dynamic: auto-discovers all `*.instructions.md` in `instructions/`
 
 ### 2026-05-01 (initial commit)
 - Created repo with `nextjs-firebase.instructions.md` and `flutter-firebase.instructions.md`

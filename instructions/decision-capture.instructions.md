@@ -99,9 +99,9 @@ After writing a decision entry, add a linkback comment near the relevant code. U
 
 | Language | Comment format |
 |---|---|
-| TypeScript / JavaScript / Dart / Java / Swift / C# | `// Decision: DEC-NNN ~/copilot-instructions/files/decisions.md#dec-nnn` |
-| Python / Shell / YAML / TOML | `# Decision: DEC-NNN ~/copilot-instructions/files/decisions.md#dec-nnn` |
-| HTML / XML / Markdown | `<!-- Decision: DEC-NNN ~/copilot-instructions/files/decisions.md#dec-nnn -->` |
+| TypeScript / JavaScript / Dart / Java / Swift / C# | `// Decision: DEC-NNN ~/copilot-instructions/logs/decisions.md#dec-nnn` |
+| Python / Shell / YAML / TOML | `# Decision: DEC-NNN ~/copilot-instructions/logs/decisions.md#dec-nnn` |
+| HTML / XML / Markdown | `<!-- Decision: DEC-NNN ~/copilot-instructions/logs/decisions.md#dec-nnn -->` |
 
 Anchor format: heading `## DEC-001 [...]` → anchor `#dec-001` (lowercase, spaces to hyphens, strip brackets and other punctuation).
 
@@ -112,5 +112,5 @@ Anchor format: heading `## DEC-001 [...]` → anchor `#dec-001` (lowercase, spac
 When a user references a decision number (e.g. "look up DEC-042" or "what was the decision on X?"):
 
 1. Check if a project-specific instruction file defines a decisions file path. If so, read that file.
-2. Otherwise read `~/copilot-instructions/files/decisions.md`.
+2. Otherwise read `~/copilot-instructions/logs/decisions.md`.
 3. Find the `## DEC-NNN` heading and return the full entry.
