@@ -16,7 +16,7 @@ Watch for these signals during any task. When one fires, start probing **immedia
 
 **Deep interview — ask sequentially, one at a time:**
 
-For each question, present 3–4 context-aware suggested answers inferred from the current task (code, libraries, conversation). Always include a "Something else — I'll describe it" option. Wait for the response before asking the next question.
+For each question, present as many as you can context-aware suggested answers inferred from the current task (code, libraries, conversation). Always include a "Something else — I'll describe it" option. Wait for the response before asking the next question.
 
 1. "What alternatives did you consider?" — suggest the most likely competing libraries/approaches given the context
 2. For each alternative the user did **not** choose, ask a separate follow-up: "Why did you reject [X]?" — suggest 3–4 rejection reasons tailored specifically to that option. Loop through all rejected options one at a time before moving to Q3.
